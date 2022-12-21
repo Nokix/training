@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 @Entity
@@ -29,6 +30,18 @@ public class Student {
     private String firstName;
     private String lastName;
     private String email;
+
+    @OneToMany(orphanRemoval = true)
+    @JoinColumn(name = "student_id")
+    private Set<Book> books = new LinkedHashSet<>();
+
+    public Set<Book> getBooks() {
+        return books;
+    }
+
+    public void setBooks(Set<Book> books) {
+        this.books = books;
+    }
 
     public Student() {
     }
