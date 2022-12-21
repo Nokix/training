@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 
+// TODO: was müsste hier von Jakarta hin?
 import javax.sql.DataSource;
 import java.util.Properties;
 
@@ -20,10 +21,10 @@ public class DevDatabaseConfig {
         return dataSource;
     }
 
+    // TODO: Hier wäre eine ausführliche Erklärung gut.
     @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource dataSource) {
-        LocalContainerEntityManagerFactoryBean entityManagerFactory =
-                new LocalContainerEntityManagerFactoryBean();
+        LocalContainerEntityManagerFactoryBean entityManagerFactory = new LocalContainerEntityManagerFactoryBean();
         entityManagerFactory.setDataSource(dataSource);
         entityManagerFactory.setPackagesToScan("com.example.training.model");
         entityManagerFactory.setJpaVendorAdapter(new HibernateJpaVendorAdapter());

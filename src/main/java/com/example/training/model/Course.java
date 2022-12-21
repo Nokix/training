@@ -1,42 +1,49 @@
 package com.example.training.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import org.hibernate.annotations.GenericGenerator;
 
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
+@GenericGenerator(name = "custom_id_gen", strategy = "com.example.training.model.CourseIdGenerator")
 public class Course {
 
     @Id
-    private Long id;
+    @GeneratedValue(generator = "custom_id_gen")
+    private String id;
 
-    @ManyToMany
-    private Set<Student> likes;
+    // TODO: Warum genau brauche ich hier das Eager?
+    @ManyToMany(mappedBy = "likes", fetch = FetchType.EAGER)
+    private Set<Student> likedBy;
 
-    // von wem wird der gebraucht? Hibernate oder Spring?
+    private String name;
+
+    // TODO: von wem wird der gebraucht? Hibernate oder Spring?
     public Course() {
-
     }
 
-    public Course(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public Course setName(String name) {
+        this.name = name;
+        return this;
+    }
+
     public boolean addLikes(Student... students) {
-        if (likes == null) likes = new HashSet<>();
-        return Collections.addAll(likes, students);
+        if (likedBy == null) likedBy = new HashSet<>();
+        return Collections.addAll(likedBy, students);
     }
 }
